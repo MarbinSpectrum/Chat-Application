@@ -20,9 +20,11 @@ io.on('connection', (socket) =>
     socket.on('disconnect', () =>
     {
         let name = clientNames.get(socket.id);
-        console.log('user disconnected: '+ socket.id);
-        io.emit('chat message', name + '님이 퇴장했습니다.');
-        clientNames.delete(socket.id);
+        if(clientNames.delete(socket.id))
+        {
+            console.log('user disconnected: '+ socket.id);
+            io.emit('chat message', name + '님이 퇴장했습니다.');         
+        }
     });
     socket.on('chat message',(msg) =>
     {
